@@ -370,7 +370,7 @@ button.secondary {
 
 .modal-shell {
   min-height: 100vh;
-  display: grid;
+  display: none;
   place-items: center;
   background:
     radial-gradient(
@@ -379,6 +379,10 @@ button.secondary {
       transparent 30%
     ),
     linear-gradient(180deg, #080b10 0%, #0b0f14 100%);
+}
+
+.modal-shell.modal-visible {
+  display: grid;
 }
 
 .popup-card {

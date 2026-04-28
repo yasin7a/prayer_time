@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Namaz Reminder & Tracker</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
     <script>
       document.documentElement.classList.add("fonts-loading");
       document.fonts.ready.then(() => {
@@ -57,7 +57,20 @@
       </main>
     </div>
 
+    <div class="modal-shell" id="reminder-modal">
+      <div class="popup-card">
+        <p class="eyebrow subtle">Prayer reminder</p>
+        <h1 id="question-text">Did you complete <span id="modal-prayer-name">this prayer</span>?</h1>
+        <p class="muted">This is a gentle reminder until you confirm your prayer.</p>
+
+        <div class="button-group modal-buttons">
+          <button id="modal-yes-button" class="primary">YES</button>
+          <button id="modal-no-button" class="secondary">NO</button>
+        </div>
+      </div>
+    </div>
+
     <div class="toast" id="toast"></div>
-    <script src="renderer.js"></script>
+    <script type="module" src="./renderer.js"></script>
   </body>
 </html>

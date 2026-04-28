@@ -1,9 +1,9 @@
-import { formatTime } from "../../utils/time.js";
+import { formatTime } from "../utils/time.js";
 
 export function buildPrayerStatusItems(prayerTimes, logs) {
   const now = new Date();
   const statusMap = new Map();
-  const todayKey = new Date().toDateString();
+  const todayKey = now.toDateString();
 
   (logs || []).forEach((entry) => {
     if (new Date(entry.timestamp).toDateString() !== todayKey) {

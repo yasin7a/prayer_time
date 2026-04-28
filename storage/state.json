@@ -1,7 +1,17 @@
 {
-  "date": "2026-04-28",
-  "triggeredPrayers": [
-    "Asr"
-  ],
-  "pendingRetry": null
+  "date": "2026-04-27",
+  "prayerState": {
+    "Fajr": "pending",
+    "Dhuhr": "pending",
+    "Asr": "completed",
+    "Maghrib": "pending",
+    "Isha": "pending"
+  },
+  "reminderActive": {
+    "Fajr": false,
+    "Dhuhr": false,
+    "Asr": true,
+    "Maghrib": false,
+    "Isha": false
+  }
 }

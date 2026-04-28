@@ -1,60 +1,39 @@
 const fs = require("fs").promises;
 const path = require("path");
+const {
+  createDefaultPrayerState,
+  createDefaultReminderState,
+} = require("./schema");
+const { toDateKey } = require("../utils/time");
 
-const dataDir = path.join(__dirname, "data");
-const logFile = path.join(dataDir, "logs.json");
-const stateFile = path.join(dataDir, "state.json");
+const storageDir = path.join(__dirname);
+const logFile = path.join(storageDir, "logs.json");
+const stateFile = path.join(storageDir, "state.json");
 const tempLogFile = `${logFile}.tmp`;
 const tempStateFile = `${stateFile}.tmp`;
 
-function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+async function ensureStorageDirectory() {
+  await fs.mkdir(storageDir, { recursive: true });
 }
 
-function getDefaultPrayerState() {
-  return {
-    Fajr: "pending",
-    Dhuhr: "pending",
-    Asr: "pending",
-    Maghrib: "pending",
-    Isha: "pending",
-  };
-}
-
-function getDefaultReminderActive() {
-  return {
-    Fajr: false,
-    Dhuhr: false,
-    Asr: false,
-    Maghrib: false,
-    Isha: false,
-  };
-}
-
-async function ensureDataDirectory() {
-  await fs.mkdir(dataDir, { recursive: true });
-}
-
-async function writeJsonAtomic(filePath, tempPath, data) {
-  const serialized = JSON.stringify(data, null, 2);
-  await fs.writeFile(tempPath, serialized, "utf8");
-  await fs.rename(tempPath, filePath);
+async function writeJsonAtomic(filePath, tempFilePath, data) {
+  const payload = JSON.stringify(data, null, 2);
+  await fs.writeFile(tempFilePath, payload, "utf8");
+  await fs.rename(tempFilePath, filePath);
 }
 
 async function recoverCorruptedFile(filePath, defaultValue) {
-  const backupName = `${filePath}.corrupt.${Date.now()}`;
   try {
-    await fs.rename(filePath, backupName);
-  } catch {
-    // ignore rename failures and continue with a fresh file
+    await fs.rename(filePath, `${filePath}.corrupt`);
+  } catch (error) {
+    // ignore errors from rename
   }
-  const tempPath = `${filePath}.tmp`;
-  await writeJsonAtomic(filePath, tempPath, defaultValue);
+  await writeJsonAtomic(filePath, `${filePath}.tmp`, defaultValue);
   return defaultValue;
 }
 
 async function getJsonFile(filePath, defaultValue) {
-  await ensureDataDirectory();
+  await ensureStorageDirectory();
 
   try {
     const content = await fs.readFile(filePath, "utf8");
@@ -88,23 +67,29 @@ async function appendLog(entry) {
 
 async function getState() {
   const defaultState = {
-    date: todayKey(),
-    prayerState: getDefaultPrayerState(),
-    reminderActive: getDefaultReminderActive(),
+    date: toDateKey(),
+    prayerState: createDefaultPrayerState(),
+    reminderActive: createDefaultReminderState(),
   };
+
   const state = await getJsonFile(stateFile, defaultState);
-  if (state && state.date === todayKey()) {
-    return {
-      prayerState: { ...defaultState.prayerState, ...state.prayerState },
-      reminderActive: {
-        ...defaultState.reminderActive,
-        ...state.reminderActive,
-      },
-      date: todayKey(),
-    };
+  if (state.date !== toDateKey()) {
+    return saveState(defaultState);
   }
 
-  return saveState(defaultState);
+  return {
+    ...defaultState,
+    ...state,
+    date: toDateKey(),
+    prayerState: {
+      ...defaultState.prayerState,
+      ...state.prayerState,
+    },
+    reminderActive: {
+      ...defaultState.reminderActive,
+      ...state.reminderActive,
+    },
+  };
 }
 
 async function saveState(state) {
@@ -117,24 +102,24 @@ async function updateState(updates) {
   const nextState = {
     ...current,
     ...updates,
-    date: todayKey(),
+    date: toDateKey(),
   };
   return saveState(nextState);
 }
 
 async function resetDailyState() {
   const state = {
-    date: todayKey(),
-    prayerState: getDefaultPrayerState(),
-    reminderActive: getDefaultReminderActive(),
+    date: toDateKey(),
+    prayerState: createDefaultPrayerState(),
+    reminderActive: createDefaultReminderState(),
   };
   return saveState(state);
 }
 
 module.exports = {
-  getLogs,
+  loadLogs: getLogs,
   appendLog,
-  getState,
+  loadState: getState,
   updateState,
   resetDailyState,
 };

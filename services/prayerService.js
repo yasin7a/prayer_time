@@ -16,6 +16,10 @@ function getPrayerTimesForDate(date = new Date()) {
   return new PrayerTimes(coordinates, today, params);
 }
 
+function getDailyPrayerTimes(date = new Date()) {
+  return getPrayerTimesForDate(date);
+}
+
 function getPrayerTimeList(prayerTimes) {
   return prayerNames.map((name) => ({
     name,
@@ -39,6 +43,7 @@ function getUpcomingPrayer(prayerTimes, now = new Date()) {
 
 module.exports = {
   getPrayerTimesForDate,
+  getDailyPrayerTimes,
   getUpcomingPrayer,
   getPrayerTimeList,
   prayerNames,

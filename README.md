@@ -1,8 +1,18 @@
-# Daily Prayer Reminder
+# Namaz Reminder & Tracker
 
-A minimal Electron desktop app that calculates prayer times for Bangladesh, schedules reminder popups, and logs responses to a local JSON file.
+A production-ready Electron desktop application for prayer reminders with local JSON storage and background tray support.
 
-## Run
+## Project layout
+
+- `main/` — Electron main process entry, window and tray helpers, IPC handlers
+- `renderer/` — UI entry point, styling, and modular UI components
+- `preload/` — secure IPC bridge exposing only permitted APIs
+- `services/` — prayer calculations, scheduling, notification and reminder retry logic
+- `storage/` — atomic JSON persistence and schema definitions
+- `utils/` — shared time helpers and logging utilities
+- `config/` — global runtime settings
+
+## Run locally
 
 1. Install dependencies:
    ```bash
@@ -15,10 +25,10 @@ A minimal Electron desktop app that calculates prayer times for Bangladesh, sche
 
 ## Features
 
-- Uses `adhan` to calculate daily prayer times
-- Schedules reminders with `setTimeout`
-- Shows a popup asking `Did you pray [Prayer Name]?`
-- Retries every 5 minutes after `NO`, up to 5 times
-- Stores log entries in `data/logs.json`
-- No database required
-# prayer_time
+- Calculates daily prayer times for Fajr, Dhuhr, Asr, Maghrib, and Isha
+- Triggers notifications at prayer time
+- Keeps reminding until a user response is recorded
+- Stores responses locally in JSON files
+- Runs in the system tray for background use
+- Handles system resume and app restarts safely
+

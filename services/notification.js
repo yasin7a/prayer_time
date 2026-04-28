@@ -19,7 +19,7 @@ function createNotifier({ onClick }) {
       }
     });
 
-    notification.show();
+    setTimeout(() => notification.show(), appConfig.notificationDelayMs);
   }
 
   return {

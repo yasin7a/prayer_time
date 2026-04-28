@@ -22,8 +22,8 @@ export function bindReminderModal({ onYes, onNo }) {
 
 export function openReminderModal(prayerName) {
   const modal = document.getElementById("reminder-modal");
-  const prayerNameElement = document.getElementById("modal-prayer-name");
-  prayerNameElement.textContent = prayerName;
+  const questionTextElement = document.getElementById("question-text");
+  questionTextElement.textContent = `Did you complete ${prayerName}?`;
   modal.classList.add("modal-visible");
 }
 

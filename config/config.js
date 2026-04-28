@@ -1,5 +1,5 @@
 const appConfig = {
-  reminderRetryIntervalMs: 10 * 1000, // 10 seconds interval for retrying missed prayer reminders
+  reminderRetryIntervalMs: 1 * 60 * 1000, // 1 minute interval for retrying missed prayer reminders
   notificationDelayMs: 10 * 1000, // 10 seconds delay before showing notification
   appName: "Namaz Reminder & Tracker",
   appId: "com.namaz.reminder",

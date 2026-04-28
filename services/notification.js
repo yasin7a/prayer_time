@@ -1,13 +1,19 @@
 const { Notification } = require("electron");
 const { appConfig } = require("../config/config");
 
+const pendingNotificationTimers = new Map();
+
 function createNotifier({ onClick }) {
   function notifyPrayer(prayerName) {
     if (!Notification.isSupported()) {
       return;
     }
 
-    setTimeout(() => {
+    cancelNotification(prayerName);
+
+    const timerId = setTimeout(() => {
+      pendingNotificationTimers.delete(prayerName);
+
       const notification = new Notification({
         title: appConfig.notificationTitle,
         body: `It's time for ${prayerName}. Tap to confirm your prayer status.`,
@@ -22,10 +28,29 @@ function createNotifier({ onClick }) {
 
       notification.show();
     }, appConfig.notificationDelayMs);
+
+    pendingNotificationTimers.set(prayerName, timerId);
+  }
+
+  function cancelNotification(prayerName) {
+    const timerId = pendingNotificationTimers.get(prayerName);
+    if (timerId) {
+      clearTimeout(timerId);
+      pendingNotificationTimers.delete(prayerName);
+    }
+  }
+
+  function cancelAllNotifications() {
+    for (const timerId of pendingNotificationTimers.values()) {
+      clearTimeout(timerId);
+    }
+    pendingNotificationTimers.clear();
   }
 
   return {
     notifyPrayer,
+    cancelNotification,
+    cancelAllNotifications,
   };
 }
 

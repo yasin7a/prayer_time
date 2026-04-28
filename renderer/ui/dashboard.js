@@ -1,27 +1,13 @@
 import { formatTime } from "../utils/time.js";
 
-export function buildPrayerStatusItems(prayerTimes, logs) {
+export function buildPrayerStatusItems(prayerTimes, prayerStates) {
   const now = new Date();
-  const statusMap = new Map();
-  const todayKey = now.toDateString();
-
-  (logs || []).forEach((entry) => {
-    if (new Date(entry.timestamp).toDateString() !== todayKey) {
-      return;
-    }
-    if (!statusMap.has(entry.prayer) || entry.status === "YES") {
-      statusMap.set(entry.prayer, entry.status);
-    }
-  });
 
   return prayerTimes.map((item) => {
     const itemTime = new Date(item.time);
-    let status = "pending";
-    const recordedStatus = statusMap.get(item.name);
+    let status = prayerStates[item.name] || "pending";
 
-    if (recordedStatus === "YES") {
-      status = "completed";
-    } else if (itemTime <= now) {
+    if (status === "pending" && itemTime <= now) {
       status = "missed";
     }
 
@@ -53,19 +39,6 @@ export function renderPrayerList(prayerItems) {
         <span class="status-pill status-${item.status}">${statusLabel}</span>
       </li>`;
     })
-    .join("\n");
-}
-
-export function renderLogEntries(logs) {
-  return (logs || [])
-    .slice(-5)
-    .reverse()
-    .map(
-      (entry) => `
-      <li>
-        ${new Date(entry.timestamp).toLocaleString()} • <strong>${entry.prayer}</strong> ${entry.status}
-      </li>`,
-    )
     .join("\n");
 }
 

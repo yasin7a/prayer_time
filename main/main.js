@@ -17,7 +17,6 @@ const {
   loadState,
   updateState,
   resetDailyState,
-  loadLogs,
   appendLog,
 } = require("../storage/storage");
 const { toDateKey } = require("../utils/time");
@@ -56,10 +55,8 @@ function getSerializedPrayerData() {
 }
 
 async function getPrayerPayload() {
-  const logs = await loadLogs();
   return {
     ...getSerializedPrayerData(),
-    logs,
     prayerStates: appState.prayerState,
     reminderActive: appState.reminderActive,
   };
@@ -111,6 +108,7 @@ async function handleUserResponse(response) {
   if (status === "YES") {
     appState.prayerState[prayer] = "completed";
     appState.reminderActive[prayer] = false;
+    notifier.cancelNotification(prayer);
     stopReminder(prayer);
   } else {
     appState.reminderActive[prayer] = true;

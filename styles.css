@@ -58,6 +58,7 @@ body {
   justify-content: center;
 }
 .container {
+  position: relative;
   width: min(95vw, 600px);
   padding: 24px;
   background: linear-gradient(180deg, var(--card), #071018);
@@ -113,4 +114,45 @@ body {
   height: 48px;
   display: block;
   flex-shrink: 0;
+}
+
+.loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  color: #f8fafc;
+  background: rgba(15, 23, 32, 0.8);
+  border-radius: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.loader.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.loader-ring {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  border-top-color: #60a5fa;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loader-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

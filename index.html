@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Namaz Reminder & Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      document.documentElement.classList.add("fonts-loading");
+      document.fonts.ready.then(() => {
+        document.documentElement.classList.add("fonts-loaded");
+      });
+    </script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="screen">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Namaz Reminder</p>
+            <h1 id="today-date">Loading…</h1>
+          </div>
+          <div class="summary-chip" id="progress-chip">0 / 5 completed</div>
+        </header>
+
+        <section class="card overview-card">
+          <div class="overview-copy">
+            <p class="eyebrow">Next prayer</p>
+            <h2 id="current-prayer">Loading prayer data…</h2>
+            <p class="muted" id="current-time">Time will appear shortly</p>
+          </div>
+          <div class="status-circle">
+            <span id="current-count">0</span>
+            <small>completed</small>
+          </div>
+        </section>
+
+        <section class="card prayer-list-card">
+          <div class="card-title">
+            <h3>Daily prayers</h3>
+            <p class="muted">A calm overview for today</p>
+          </div>
+          <ul id="prayer-times" class="prayer-list"></ul>
+        </section>
+
+        <section class="card log-card">
+          <div class="card-title">
+            <h3>Recent log</h3>
+            <p class="muted">Your latest prayer responses</p>
+          </div>
+          <ul id="log-list" class="log-list"></ul>
+        </section>
+
+        <div class="button-group action-group">
+          <button id="yes-button" class="primary">YES</button>
+          <button id="no-button" class="secondary">NO</button>
+        </div>
+      </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="renderer.js"></script>
+  </body>
+</html>

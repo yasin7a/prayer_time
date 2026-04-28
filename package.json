@@ -1,0 +1,41 @@
+{
+  "name": "pray-time-reminder",
+  "version": "1.0.0",
+  "description": "A simple Electron prayer reminder and tracker with local JSON storage.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis",
+    "pack": "electron-builder --dir"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "adhan": "^4.4.3"
+  },
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.praytime.reminder",
+    "productName": "Pray Time Reminder",
+    "files": [
+      "**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "assets/icons/logo.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

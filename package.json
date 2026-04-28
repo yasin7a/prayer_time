@@ -1,41 +1,15 @@
 {
   "name": "salah-reminder",
   "version": "1.0.0",
-  "description": "Salah Reminder - a production-ready Electron reminder app for prayer times.",
+  "description": "Minimal Salah Reminder Electron app",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "dist": "electron-builder --win nsis",
-    "pack": "electron-builder --dir"
+    "start": "electron ."
   },
+  "keywords": [],
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    "adhan": "^4.4.3"
-  },
   "devDependencies": {
-    "electron": "^26.0.0",
-    "electron-builder": "^24.13.3"
-  },
-  "build": {
-    "appId": "com.salah.reminder",
-    "productName": "Salah Reminder",
-    "files": [
-      "**/*"
-    ],
-    "directories": {
-      "output": "dist"
-    },
-    "win": {
-      "icon": "assets/icons/logo.ico",
-      "target": [
-        "nsis"
-      ]
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true
-    }
+    "electron": "^25.0.0"
   }
 }

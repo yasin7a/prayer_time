@@ -1,6 +1,6 @@
-# Namaz Reminder & Tracker
+# Salah Reminder
 
-A production-ready Electron desktop application for prayer reminders with local JSON storage and background tray support.
+A production-ready Electron desktop application for prayer time reminders. This app has no logs, no history, and no analytics — only reminders.
 
 ## Project layout
 

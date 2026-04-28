@@ -1,7 +1,7 @@
 {
-  "name": "namaz-reminder-tracker",
+  "name": "salah-reminder",
   "version": "1.0.0",
-  "description": "Namaz Reminder & Tracker - a stable Electron prayer reminder app with local JSON persistence.",
+  "description": "Salah Reminder - a production-ready Electron reminder app for prayer times.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -18,8 +18,8 @@
     "electron-builder": "^24.13.3"
   },
   "build": {
-    "appId": "com.namaz.reminder",
-    "productName": "Namaz Reminder & Tracker",
+    "appId": "com.salah.reminder",
+    "productName": "Salah Reminder",
     "files": [
       "**/*"
     ],

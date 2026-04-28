@@ -1,8 +1,4 @@
-import {
-  buildPrayerStatusItems,
-  renderPrayerList,
-  formatProgress,
-} from "./ui/dashboard.js";
+import { renderPrayerList } from "./ui/dashboard.js";
 import { bindReminderModal, openReminderModal } from "./ui/modal.js";
 import { showToast } from "./ui/toast.js";
 
@@ -10,7 +6,6 @@ const todayDateEl = document.getElementById("today-date");
 const currentPrayerEl = document.getElementById("current-prayer");
 const currentTimeEl = document.getElementById("current-time");
 const prayerTimesEl = document.getElementById("prayer-times");
-const progressChip = document.getElementById("progress-chip");
 
 let currentPrayerName = null;
 
@@ -47,14 +42,7 @@ function refreshUI(data) {
     minute: "2-digit",
   });
 
-  const prayerItems = buildPrayerStatusItems(
-    data.prayerTimes,
-    data.prayerStates,
-  );
-  const progress = formatProgress(prayerItems);
-
-  progressChip.textContent = progress.label;
-  prayerTimesEl.innerHTML = renderPrayerList(prayerItems);
+  prayerTimesEl.innerHTML = renderPrayerList(data.prayerTimes);
 }
 
 async function loadPrayerData() {
@@ -90,15 +78,6 @@ window.electronAPI.onOpenPrayerUI((prayerName) => {
   openReminderModal(prayerName);
   highlightPrayer(prayerName);
   showToast(`Reminder open for ${prayerName}`, "success");
-});
-
-window.electronAPI.onLogUpdated((entry) => {
-  const message =
-    entry.status === "YES"
-      ? "✔ Prayer completed"
-      : "Reminder saved — we will check in again.";
-  showToast(message, entry.status === "YES" ? "success" : "warn");
-  loadPrayerData();
 });
 
 loadPrayerData();

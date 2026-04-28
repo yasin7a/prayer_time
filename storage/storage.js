@@ -1,15 +1,10 @@
 const fs = require("fs").promises;
 const path = require("path");
-const {
-  createDefaultPrayerState,
-  createDefaultReminderState,
-} = require("./schema");
+const { createDefaultReminderState } = require("./schema");
 const { toDateKey } = require("../utils/time");
 
 const storageDir = path.join(__dirname, "data");
-const logFile = path.join(storageDir, "logs.json");
 const stateFile = path.join(storageDir, "state.json");
-const tempLogFile = `${logFile}.tmp`;
 const tempStateFile = `${stateFile}.tmp`;
 
 async function ensureStorageDirectory() {
@@ -51,24 +46,9 @@ async function getJsonFile(filePath, defaultValue) {
   }
 }
 
-async function getLogs() {
-  return getJsonFile(logFile, []);
-}
-
-async function appendLog(entry) {
-  const logs = await getLogs();
-  logs.push(entry);
-  try {
-    await writeJsonAtomic(logFile, tempLogFile, logs);
-  } catch (error) {
-    await recoverCorruptedFile(logFile, [entry]);
-  }
-}
-
 async function getState() {
   const defaultState = {
     date: toDateKey(),
-    prayerState: createDefaultPrayerState(),
     reminderActive: createDefaultReminderState(),
   };
 
@@ -81,10 +61,6 @@ async function getState() {
     ...defaultState,
     ...state,
     date: toDateKey(),
-    prayerState: {
-      ...defaultState.prayerState,
-      ...state.prayerState,
-    },
     reminderActive: {
       ...defaultState.reminderActive,
       ...state.reminderActive,
@@ -110,15 +86,12 @@ async function updateState(updates) {
 async function resetDailyState() {
   const state = {
     date: toDateKey(),
-    prayerState: createDefaultPrayerState(),
     reminderActive: createDefaultReminderState(),
   };
   return saveState(state);
 }
 
 module.exports = {
-  loadLogs: getLogs,
-  appendLog,
   loadState: getState,
   updateState,
   resetDailyState,

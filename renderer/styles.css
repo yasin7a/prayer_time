@@ -369,7 +369,8 @@ button.secondary {
 }
 
 .modal-shell {
-  min-height: 100vh;
+  position: fixed;
+  inset: 0;
   display: none;
   place-items: center;
   background:
@@ -379,6 +380,7 @@ button.secondary {
       transparent 30%
     ),
     linear-gradient(180deg, #080b10 0%, #0b0f14 100%);
+  z-index: 1000;
 }
 
 .modal-shell.modal-visible {

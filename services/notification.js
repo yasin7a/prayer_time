@@ -7,19 +7,21 @@ function createNotifier({ onClick }) {
       return;
     }
 
-    const notification = new Notification({
-      title: appConfig.notificationTitle,
-      body: `It's time for ${prayerName}. Tap to confirm your prayer status.`,
-      silent: false,
-    });
+    setTimeout(() => {
+      const notification = new Notification({
+        title: appConfig.notificationTitle,
+        body: `It's time for ${prayerName}. Tap to confirm your prayer status.`,
+        silent: false,
+      });
 
-    notification.on("click", () => {
-      if (typeof onClick === "function") {
-        onClick(prayerName);
-      }
-    });
+      notification.on("click", () => {
+        if (typeof onClick === "function") {
+          onClick(prayerName);
+        }
+      });
 
-    setTimeout(() => notification.show(), appConfig.notificationDelayMs);
+      notification.show();
+    }, appConfig.notificationDelayMs);
   }
 
   return {

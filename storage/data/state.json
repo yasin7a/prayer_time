@@ -10,7 +10,7 @@
   "reminderActive": {
     "Fajr": false,
     "Dhuhr": false,
-    "Asr": false,
+    "Asr": true,
     "Maghrib": false,
     "Isha": false
   }

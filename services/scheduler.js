@@ -64,7 +64,11 @@ function stopReminder(prayerName) {
   }
 }
 
-function initScheduler({ prayerTimes, onPrayerDue: callback, onDayChange: dayCallback }) {
+function initScheduler({
+  prayerTimes,
+  onPrayerDue: callback,
+  onDayChange: dayCallback,
+}) {
   onPrayerDue = callback;
   onDayChange = dayCallback;
   schedulePrayerEvents(prayerTimes);

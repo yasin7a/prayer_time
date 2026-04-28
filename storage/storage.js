@@ -6,7 +6,7 @@ const {
 } = require("./schema");
 const { toDateKey } = require("../utils/time");
 
-const storageDir = path.join(__dirname);
+const storageDir = path.join(__dirname, "data");
 const logFile = path.join(storageDir, "logs.json");
 const stateFile = path.join(storageDir, "state.json");
 const tempLogFile = `${logFile}.tmp`;

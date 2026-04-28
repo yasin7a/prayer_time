@@ -9,7 +9,10 @@ const {
 } = require("../services/prayerService");
 const { initScheduler, stopReminder } = require("../services/scheduler");
 const { createNotifier } = require("../services/notification");
-const { activateReminder, stopAllReminders } = require("../services/retryService");
+const {
+  activateReminder,
+  stopAllReminders,
+} = require("../services/retryService");
 const {
   loadState,
   updateState,
@@ -19,7 +22,10 @@ const {
 } = require("../storage/storage");
 const { toDateKey } = require("../utils/time");
 const logger = require("../utils/logger");
-const { isValidPrayerName, isValidResponseStatus } = require("../utils/validator");
+const {
+  isValidPrayerName,
+  isValidResponseStatus,
+} = require("../utils/validator");
 
 let scheduler = null;
 let notifier = null;
@@ -189,9 +195,12 @@ async function createApplication() {
   });
 }
 
-app.whenReady().then(createApplication).catch((error) => {
-  logger.error("Failed to initialize application", error);
-});
+app
+  .whenReady()
+  .then(createApplication)
+  .catch((error) => {
+    logger.error("Failed to initialize application", error);
+  });
 
 app.on("second-instance", () => {
   showMainWindow();

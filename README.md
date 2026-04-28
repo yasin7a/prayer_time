@@ -31,4 +31,3 @@ A production-ready Electron desktop application for prayer reminders with local 
 - Stores responses locally in JSON files
 - Runs in the system tray for background use
 - Handles system resume and app restarts safely
-

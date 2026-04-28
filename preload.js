@@ -10,5 +10,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   onLogUpdated: (callback) =>
     ipcRenderer.on("log-updated", (event, entry) => callback(entry)),
   onOpenPrayerUI: (callback) =>
-    ipcRenderer.on("open-prayer-ui", (event, prayerName) => callback(prayerName)),
+    ipcRenderer.on("open-prayer-ui", (event, prayerName) =>
+      callback(prayerName),
+    ),
 });

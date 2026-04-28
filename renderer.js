@@ -15,13 +15,13 @@ let highlightedPrayer = null;
 
 function highlightPrayer(prayerName) {
   highlightedPrayer = prayerName;
-  const items = prayerTimesEl.querySelectorAll('[data-prayer]');
+  const items = prayerTimesEl.querySelectorAll("[data-prayer]");
   items.forEach((item) => {
     if (item.dataset.prayer === prayerName) {
-      item.classList.add('highlighted');
-      item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      item.classList.add("highlighted");
+      item.scrollIntoView({ behavior: "smooth", block: "center" });
     } else {
-      item.classList.remove('highlighted');
+      item.classList.remove("highlighted");
     }
   });
 }

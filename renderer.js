@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
   buttons.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const prayer = btn.getAttribute("data-prayer");
+      const originalText = btn.textContent;
+      btn.classList.add("loading");
+      btn.textContent = "Sending…";
       setLoading(true);
       setTempDisabled(btn);
 
@@ -41,6 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (error) {
         console.error(error);
       } finally {
+        btn.classList.remove("loading");
+        btn.textContent = originalText;
         setLoading(false);
       }
     });

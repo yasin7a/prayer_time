@@ -8,14 +8,6 @@
     <link rel="icon" href="assets/icons/logo.svg" />
   </head>
   <body>
-    <header class="app-header">
-      <img
-        id="app-logo"
-        src="assets/icons/logo.svg"
-        alt="Salah Reminder logo"
-      />
-      <h1 class="title">Salah Reminder</h1>
-    </header>
     <main class="container">
       <ul class="prayer-list">
         <li class="prayer-row">
@@ -39,30 +31,6 @@
           ><button class="btn" data-prayer="Isha">Reminder</button>
         </li>
       </ul>
-      <section class="settings-panel" aria-label="App settings">
-        <h2 class="section-title">App Settings</h2>
-        <div class="setting-row">
-          <label>
-            <input type="checkbox" id="toggle-reminders" />
-            Enable reminders
-          </label>
-        </div>
-        <div class="setting-row">
-          <label>
-            <input type="checkbox" id="toggle-sound" />
-            Notification sound
-          </label>
-        </div>
-        <div class="setting-row">
-          <label>
-            <input type="checkbox" id="toggle-compact" />
-            Compact mode
-          </label>
-        </div>
-        <p class="settings-note">
-          Settings are saved locally and remembered each time you open the app.
-        </p>
-      </section>
     </main>
 
     <script src="renderer.js"></script>

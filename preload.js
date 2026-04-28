@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("api", {
-  remind: (prayerName) => ipcRenderer.invoke("remind", prayerName),
+  notify: ({ title, body }) => ipcRenderer.invoke("notify", { title, body }),
+  showApp: () => ipcRenderer.invoke("show-app"),
 });

@@ -1,15 +1,24 @@
-const { app, BrowserWindow, ipcMain, Notification } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Notification,
+  Tray,
+  Menu,
+  nativeImage,
+} = require("electron");
 const path = require("path");
 
-let mainWindow;
+let mainWindow = null;
+let tray = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 420,
     height: 520,
-    resizable: true,
+    resizable: false,
     backgroundColor: "#0f1720",
-    show: true,
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -19,38 +28,93 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, "index.html"));
   mainWindow.setMenuBarVisibility(false);
+
+  mainWindow.on("ready-to-show", () => {
+    mainWindow.show();
+  });
+
+  mainWindow.on("minimize", (event) => {
+    event.preventDefault();
+    mainWindow.hide();
+  });
+
+  mainWindow.on("close", (event) => {
+    if (!app.quitting) {
+      event.preventDefault();
+      mainWindow.hide();
+    }
+  });
 }
 
-app.whenReady().then(createWindow);
-
-ipcMain.handle("remind", (event, prayerName) => {
-  const notif = new Notification({
-    title: "Salah Reminder",
-    body: `${prayerName} reminder triggered`,
-  });
-  notif.show();
-
-  if (mainWindow) {
-    try {
-      if (
-        typeof mainWindow.isMinimized === "function" &&
-        mainWindow.isMinimized()
-      )
-        mainWindow.restore();
-    } catch (e) {}
-    try {
-      mainWindow.show();
-      mainWindow.focus();
-    } catch (e) {}
+function showAppWindow() {
+  if (!mainWindow) {
+    createWindow();
   }
 
-  return true;
+  if (mainWindow.isMinimized()) {
+    mainWindow.restore();
+  }
+
+  mainWindow.show();
+  mainWindow.focus();
+}
+
+function createTray() {
+  const iconPath = path.join(__dirname, "assets", "icons", "logo.ico");
+  const icon = nativeImage.createFromPath(iconPath);
+  tray = new Tray(icon);
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Show Salah Reminder",
+      click: () => showAppWindow(),
+    },
+    {
+      label: "Quit",
+      click: () => {
+        app.quitting = true;
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.setToolTip("Salah Reminder Network");
+  tray.setContextMenu(contextMenu);
+  tray.on("click", () => showAppWindow());
+}
+
+function showNotification(title, body) {
+  const notification = new Notification({ title, body });
+  notification.on("click", () => {
+    showAppWindow();
+  });
+  notification.show();
+}
+
+app.setAppUserModelId("com.salahreminder.network");
+app.whenReady().then(() => {
+  createWindow();
+  createTray();
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+app.on("before-quit", () => {
+  app.quitting = true;
+});
+
+app.on("window-all-closed", (event) => {
+  event.preventDefault();
 });
 
 app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  showAppWindow();
+});
+
+ipcMain.handle("notify", (event, { title, body }) => {
+  showNotification(title, body);
+  return true;
+});
+
+ipcMain.handle("show-app", () => {
+  showAppWindow();
+  return true;
 });

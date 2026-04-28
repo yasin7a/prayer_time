@@ -9,32 +9,36 @@
   </head>
   <body>
     <main class="container">
+      <h1 class="title">Salah Reminder Network</h1>
+      <p class="connection-line">
+        Status: <strong id="connection-status">Connecting...</strong>
+      </p>
       <ul class="prayer-list">
         <li class="prayer-row">
-          <span class="prayer-name">Fajr</span
-          ><button class="btn" data-prayer="Fajr">Reminder</button>
+          <span class="prayer-name">Fajr</span>
+          <button class="remind-button" data-prayer="Fajr">Remind</button>
         </li>
         <li class="prayer-row">
-          <span class="prayer-name">Dhuhr</span
-          ><button class="btn" data-prayer="Dhuhr">Reminder</button>
+          <span class="prayer-name">Dhuhr</span>
+          <button class="remind-button" data-prayer="Dhuhr">Remind</button>
         </li>
         <li class="prayer-row">
-          <span class="prayer-name">Asr</span
-          ><button class="btn" data-prayer="Asr">Reminder</button>
+          <span class="prayer-name">Asr</span>
+          <button class="remind-button" data-prayer="Asr">Remind</button>
         </li>
         <li class="prayer-row">
-          <span class="prayer-name">Maghrib</span
-          ><button class="btn" data-prayer="Maghrib">Reminder</button>
+          <span class="prayer-name">Maghrib</span>
+          <button class="remind-button" data-prayer="Maghrib">Remind</button>
         </li>
         <li class="prayer-row">
-          <span class="prayer-name">Isha</span
-          ><button class="btn" data-prayer="Isha">Reminder</button>
+          <span class="prayer-name">Isha</span>
+          <button class="remind-button" data-prayer="Isha">Remind</button>
         </li>
       </ul>
-      <div class="loader" id="loader" aria-hidden="true">
-        <span class="loader-ring"></span>
-        <span class="loader-text">Sending reminder…</span>
-      </div>
+      <p class="status-note" id="status-note">
+        Connecting to the shared reminder server...
+      </p>
+      <p class="last-event" id="last-event">No events yet.</p>
     </main>
 
     <script src="renderer.js"></script>
